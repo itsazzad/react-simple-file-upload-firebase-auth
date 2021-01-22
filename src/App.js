@@ -174,12 +174,6 @@ class App extends React.Component {
                     {...formItemLayout}
                     onFinish={this.onFinish}
                     onFinishFailed={this.onFinishFailed}
-                    initialValues={{
-                      ["email"]: "itsazzad@gmail.com",
-                      ["password"]: "111111",
-                      ["confirmPassword"]: "111111",
-                      ["displayName"]: "Sazzad",
-                    }}
                   >
                     <Form.Item
                       name="email"
