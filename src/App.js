@@ -10,7 +10,7 @@ import "./App.css";
 import Avatar from "./Avatar";
 import UserInfo from "./UserInfo";
 import firebase from "./firebase";
-import mainConfigData from './config/main.json';
+import mainConfigData from "./config/main.json";
 
 const { Header, Footer, Content } = Layout;
 
@@ -19,6 +19,9 @@ class App extends React.Component {
     super(props);
 
     this.handleAvatarChange = this.handleAvatarChange.bind(this);
+    this.onFinishFailed = this.onFinishFailed.bind(this);
+    this.onFinish = this.onFinish.bind(this);
+
     this.state = {
       avatars: [],
       authenticated: false,
@@ -30,6 +33,80 @@ class App extends React.Component {
 
   handleAvatarChange(avatars) {
     this.setState({ avatars });
+  }
+  onFinishFailed(errorInfo: any) {
+    console.error("Failed:", errorInfo);
+  }
+
+  onFinish(values: any) {
+    console.log("Received values of form: ", values);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(values.email, values.password)
+      .then((userCredential) => {
+        console.log(userCredential);
+        // Signed in
+        this.setState((state) => ({
+          authenticated: true,
+        }));
+        this.setState((state) => ({
+          messages: [
+            ...state.messages,
+            { message: "Signed in", type: "success" },
+          ],
+        }));
+
+        userCredential.user
+          .updateProfile({
+            displayName: values.displayName,
+            photoURL: this.state.avatars.length
+              ? this.state.avatars[this.state.avatars.length - 1]
+              : null,
+          })
+          .then(() => {
+            // Update successful.
+            this.setState({ isDataPersisted: true });
+            this.setCurrentUser();
+
+            this.setState((state) => ({
+              messages: [
+                ...state.messages,
+                { message: "Profile Updated", type: "success" },
+              ],
+            }));
+          })
+          .catch((error) => {
+            // An error happened.
+            console.error(error);
+            this.setState({ isDataPersisted: true });
+            this.setCurrentUser();
+            this.setState((state) => ({
+              messages: [
+                ...state.messages,
+                {
+                  message: error.message
+                    ? error.message
+                    : "An error happened during profile update",
+                  type: "error",
+                },
+              ],
+            }));
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+        this.setState((state) => ({
+          messages: [
+            ...state.messages,
+            {
+              message: error.message
+                ? error.message
+                : "An error happened during user registration",
+              type: "error",
+            },
+          ],
+        }));
+      });
   }
 
   setCurrentUser() {
@@ -53,74 +130,6 @@ class App extends React.Component {
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
-    };
-    const onFinishFailed = (errorInfo: any) => {
-      console.error("Failed:", errorInfo);
-    };
-
-    const onFinish = (values: any) => {
-      console.log("Received values of form: ", values);
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(values.email, values.password)
-        .then((user) => {
-          console.log(111, user);
-          // Signed in
-          this.setState((state) => ({
-            authenticated: true,
-          }));
-          this.setState((state) => ({
-            messages: [
-              ...state.messages,
-              { message: "Signed in", type: "success" },
-            ],
-          }));
-
-          user
-            .updateProfile({
-              displayName: values.displayName,
-              photoURL: values.photoURL,
-            })
-            .then(function () {
-              // Update successful.
-              this.setState({ isDataPersisted: true });
-              this.setCurrentUser();
-
-              this.setState((state) => ({
-                messages: [
-                  ...state.messages,
-                  { message: "Profile Updated", type: "success" },
-                ],
-              }));
-            })
-            .catch(function (error) {
-              // An error happened.
-              console.error(error);
-              this.setState({ isDataPersisted: true });
-              this.setCurrentUser();
-              this.setState((state) => ({
-                messages: [
-                  ...state.messages,
-                  {
-                    message: "An error happened during profile update",
-                    type: "error",
-                  },
-                ],
-              }));
-            });
-        })
-        .catch((error) => {
-          console.error(error);
-          this.setState((state) => ({
-            messages: [
-              ...state.messages,
-              {
-                message: "An error happened during user registration",
-                type: "error",
-              },
-            ],
-          }));
-        });
     };
 
     // {message: "...", type: "success|info|warning|error"}
@@ -163,12 +172,17 @@ class App extends React.Component {
                   <Form
                     name="validate_other"
                     {...formItemLayout}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    initialValues={{}}
+                    onFinish={this.onFinish}
+                    onFinishFailed={this.onFinishFailed}
+                    initialValues={{
+                      ["email"]: "itsazzad@gmail.com",
+                      ["password"]: "111111",
+                      ["confirmPassword"]: "111111",
+                      ["displayName"]: "Sazzad",
+                    }}
                   >
                     <Form.Item
-                      name={["user", "email"]}
+                      name="email"
                       label="Email"
                       rules={[
                         {
@@ -205,7 +219,7 @@ class App extends React.Component {
                     </Form.Item>
                     <Form.Item
                       label="Confirm Password"
-                      name="confirm-password"
+                      name="confirmPassword"
                       dependencies={["password"]}
                       hasFeedback
                       rules={[
@@ -310,7 +324,7 @@ class App extends React.Component {
                     <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372zm5.6-532.7c53 0 89 33.8 93 83.4.3 4.2 3.8 7.4 8 7.4h56.7c2.6 0 4.7-2.1 4.7-4.7 0-86.7-68.4-147.4-162.7-147.4C407.4 290 344 364.2 344 486.8v52.3C344 660.8 407.4 734 517.3 734c94 0 162.7-58.8 162.7-141.4 0-2.6-2.1-4.7-4.7-4.7h-56.8c-4.2 0-7.6 3.2-8 7.3-4.2 46.1-40.1 77.8-93 77.8-65.3 0-102.1-47.9-102.1-133.6v-52.6c.1-87 37-135.5 102.2-135.5z"></path>
                   </svg>
                 </span>{" "}
-                {(new Date().getFullYear())} {mainConfigData.title}
+                {new Date().getFullYear()} {mainConfigData.title}
               </div>
             </div>
           </Footer>

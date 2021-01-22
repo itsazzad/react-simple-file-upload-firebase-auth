@@ -1,18 +1,17 @@
-import {
-  Image,
-} from "antd";
+import { Image } from "antd";
 
-const userInfo = (props) =>
-  props.currentUser && (
+const userInfo = (props) => {
+  console.log(props);
+  return props.currentUser ? (
     <ul>
       <li>
-        <string>Name</string>: {props.currentUser.displayName}
+        <strong>Name</strong>: {props.currentUser.displayName}
       </li>
       <li>
-        <string>Email</string>: {props.currentUser.email}
+        <strong>Email</strong>: {props.currentUser.email}
       </li>
       <li>
-        <string>Photo</string>:
+        <strong>Photo</strong>:
         {props.currentUser.photoURL && (
           <Image
             width={150}
@@ -23,6 +22,7 @@ const userInfo = (props) =>
         )}
       </li>
     </ul>
-  );
+  ) : null;
+}
 
 export default userInfo;

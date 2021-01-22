@@ -1,0 +1,33 @@
+[debug] [2021-01-22T01:42:54.023Z] ----------------------------------------------------------------------
+[debug] [2021-01-22T01:42:54.026Z] Command:       /Users/khan/.nvm/versions/node/v10.22.0/bin/node /Users/khan/.nvm/versions/node/v10.22.0/bin/firebase deploy --only hosting:simplefileuploader
+[debug] [2021-01-22T01:42:54.027Z] CLI Version:   9.2.2
+[debug] [2021-01-22T01:42:54.027Z] Platform:      darwin
+[debug] [2021-01-22T01:42:54.027Z] Node Version:  v10.22.0
+[debug] [2021-01-22T01:42:54.028Z] Time:          Fri Jan 22 2021 07:42:54 GMT+0600 (Bangladesh Standard Time)
+[debug] [2021-01-22T01:42:54.028Z] ----------------------------------------------------------------------
+[debug] [2021-01-22T01:42:54.028Z] 
+[debug] [2021-01-22T01:42:54.047Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-01-22T01:42:54.048Z] > authorizing via signed-in user
+[debug] [2021-01-22T01:42:54.048Z] [iam] checking project reactjs-file-uploader for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2021-01-22T01:42:54.052Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-01-22T01:42:54.052Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-01-22T01:42:54.466Z] <<< HTTP RESPONSE 200 {"pragma":"no-cache","date":"Fri, 22 Jan 2021 01:42:57 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","expires":"Mon, 01 Jan 1990 00:00:00 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-01-22T01:42:54.517Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/reactjs-file-uploader:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2021-01-22T01:42:56.227Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 22 Jan 2021 01:42:58 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=1267","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-01-22T01:42:56.230Z] > refreshing access token with scopes: []
+[debug] [2021-01-22T01:42:56.230Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-01-22T01:42:56.490Z] <<< HTTP RESPONSE 200 {"expires":"Mon, 01 Jan 1990 00:00:00 GMT","pragma":"no-cache","date":"Fri, 22 Jan 2021 01:42:59 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-01-22T01:42:56.583Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/reactjs-file-uploader [none]
+[debug] [2021-01-22T01:42:57.260Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/reactjs-file-uploader 200
+[debug] [2021-01-22T01:42:57.260Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/reactjs-file-uploader {"projectId":"reactjs-file-uploader","projectNumber":"919539770902","displayName":"ReactJS File Uploader","name":"projects/reactjs-file-uploader","resources":{"hostingSite":"reactjs-file-uploader","realtimeDatabaseInstance":"reactjs-file-uploader-default-rtdb"},"state":"ACTIVE"}
+[debug] [2021-01-22T01:42:57.554Z] TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received type undefined
+    at validateString (internal/validators.js:125:11)
+    at Object.join (path.js:1147:7)
+    at Object.checkFunctionsSDKVersion [as fn] (/Users/khan/.nvm/versions/node/v10.22.0/lib/node_modules/firebase-tools/lib/checkFirebaseSDKVersion.js:34:28)
+    at /Users/khan/.nvm/versions/node/v10.22.0/lib/node_modules/firebase-tools/lib/command.js:161:30
+    at process._tickCallback (internal/process/next_tick.js:68:7)
+[error] 
+[error] Error: An unexpected error has occurred.
